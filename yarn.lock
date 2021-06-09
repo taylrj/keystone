@@ -241,6 +241,15 @@
   dependencies:
     any-observable "^0.3.0"
 
+"@twreporter/draft-js@0.12.7-rc.0":
+  version "0.12.7-rc.0"
+  resolved "https://registry.yarnpkg.com/@twreporter/draft-js/-/draft-js-0.12.7-rc.0.tgz#6ca3eadd478d96eda8d391584cf235ec389d4410"
+  integrity sha512-HQ4aL0SzNz7DueVUvZ2Osa0X/WxMh/kL7jGU9daatXWW1brzcLg+8+8lSPR2lH9NfKsSKxw8dKDvNFlmZClP7g==
+  dependencies:
+    fbjs "^2.0.0"
+    immutable "~3.7.4"
+    object-assign "^4.1.1"
+
 "@twreporter/react-article-components@0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@twreporter/react-article-components/-/react-article-components-0.2.0.tgz#d47356bda24b5713707ac2a7b1923bd4e65d5570"
@@ -2868,6 +2877,11 @@ core-js@^2.4.0:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.4.1.tgz#4de911e667b0eae9124e34254b53aea6fc618d3e"
 
+core-js@^2.4.1:
+  version "2.6.12"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
+  integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
+
 core-js@^2.5.0:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.10.tgz#8a5b8391f8cc7013da703411ce5b585706300d7f"
@@ -3511,12 +3525,14 @@ dotgitignore@2.1.0:
     find-up "^3.0.0"
     minimatch "^3.0.4"
 
-"draft-js@file:.yalc/draft-js":
-  version "0.11.7-8de3fcb3"
+draft-js@0.11.2:
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.11.2.tgz#dd272d9c9e1299c3bd94f5f4aac3ac2784551d4c"
+  integrity sha512-JU96XdAigQ4hAmyBMVXps6RQ8+dMhhNI1dDJPMP6OeHuSv+uwDzDg/7lxGQ1PEq+1Q6575jtvxDa7Aw3vy0WHA==
   dependencies:
-    fbjs "^2.0.0"
+    fbjs "^1.0.0"
     immutable "~3.7.4"
-    object-assign "^4.1.1"
+    object-assign "^4.1.0"
 
 duplexer2@0.0.2:
   version "0.0.2"
@@ -4199,6 +4215,20 @@ fbjs@^0.8.9:
   integrity sha1-xNWY6taUkRJlPWWIsBpc3Nn5D90=
   dependencies:
     core-js "^1.0.0"
+    isomorphic-fetch "^2.1.1"
+    loose-envify "^1.0.0"
+    object-assign "^4.1.0"
+    promise "^7.1.1"
+    setimmediate "^1.0.5"
+    ua-parser-js "^0.7.18"
+
+fbjs@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-1.0.0.tgz#52c215e0883a3c86af2a7a776ed51525ae8e0a5a"
+  integrity sha512-MUgcMEJaFhCaF1QtWGnmq9ZDRAzECTCRAF7O6UZIlAlkTs1SasiX9aP0Iw7wfD2mJ7wDTNfg2w7u5fSCwJk1OA==
+  dependencies:
+    core-js "^2.4.1"
+    fbjs-css-vars "^1.0.0"
     isomorphic-fetch "^2.1.1"
     loose-envify "^1.0.0"
     object-assign "^4.1.0"
