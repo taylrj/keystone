@@ -1,6 +1,6 @@
 'use strict';
 import { Button, FormField, FormInput, Modal } from 'elemental';
-import { BlockMapBuilder, Editor, EditorState, Entity, KeyBindingUtil, Modifier, RichUtils, convertFromHTML, convertFromRaw, getDefaultKeyBinding } from 'draft-js';
+import { BlockMapBuilder, Editor, EditorState, KeyBindingUtil, Modifier, RichUtils, convertFromHTML, convertFromRaw, getDefaultKeyBinding } from 'draft-js';
 import { BlockStyleButtons, EntityButtons, InlineStyleButtons } from '../editor-buttons';
 import ENTITY from '../entities';
 import React, { Component } from 'react';
@@ -93,9 +93,10 @@ let EntityEditingBlock = (superclass) => class extends Component {
 			html = html.replace(/<p|<h1|<h2|<h3|<h4|<h5|<h6/g, '<div').replace(/<\/p|<\/h1|<\/h2|<\/h3|<\/h4|<\/h5|<\/h6/g, '</div');
 
 			let editorState = this.state.editorState;
-			var htmlFragment = convertFromHTML(html);
+			const htmlFragment = convertFromHTML(html);
 			if (htmlFragment) {
-				var htmlMap = BlockMapBuilder.createFromArray(htmlFragment);
+        const { contentBlocks, entityMap } = htmlFragment;
+				const htmlMap = BlockMapBuilder.createFromArray(contentBlocks);
 				this._handleEditorStateChange(insertFragment(editorState, htmlMap));
 				// prevent the default paste behavior.
 				return true;
@@ -233,7 +234,9 @@ let EntityEditingBlock = (superclass) => class extends Component {
 
 	_toggleLink (entity, value) {
 		const { url, text } = value;
-		const entityKey = url !== '' ? Entity.create(entity, 'IMMUTABLE', { text: text || url, url: url }) : null;
+    const { editorState } = this.state;
+    const contentState = editorState.getCurrentContent();
+		const entityKey = url !== '' ? contentState.createEntity(entity, 'IMMUTABLE', { text: text || url, url: url }) : null;
 		this._toggleTextWithEntity(entityKey, text || url);
 	}
 

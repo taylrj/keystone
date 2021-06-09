@@ -1,4 +1,4 @@
-import { BlockMapBuilder, Editor, EditorState, KeyBindingUtil, Modifier, Entity, RichUtils, convertFromHTML, convertFromRaw, convertToRaw, getDefaultKeyBinding } from 'draft-js';
+import { BlockMapBuilder, Editor, EditorState, KeyBindingUtil, Modifier, RichUtils, convertFromHTML, convertFromRaw, convertToRaw, getDefaultKeyBinding } from 'draft-js';
 import { BlockStyleButtons, EntityButtons, InlineStyleButtons } from './editor/editor-buttons';
 import { Button, FormInput } from 'elemental';
 import ENTITY from './editor/entities';
@@ -175,7 +175,9 @@ module.exports = Field.create({
 	},
 
 	_toggleInlineEntity (entity, value) {
-		const entityKey = Entity.create(entity, 'IMMUTABLE', value);
+		let contentState = this.state.editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(entity, 'IMMUTABLE', value);
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
 		this._toggleTextWithEntity(entityKey, _.get(value, 'text'));
 	},
 
@@ -246,7 +248,7 @@ module.exports = Field.create({
 					data: this._convertToApiData(this.state.editorState),
 					// render desktop layout when editor is enlarged,
 					// otherwise render mobile layout
-					device: this.state.isEnlarged ? 'desktop' : 'mobile',
+          device: this.state.isEnlarged ? 'desktop' : 'mobile',
 				},
 			};
 		}
@@ -275,9 +277,10 @@ module.exports = Field.create({
 			html = html.replace(/<p|<h1|<h2|<h3|<h4|<h5|<h6/g, '<div').replace(/<\/p|<\/h1|<\/h2|<\/h3|<\/h4|<\/h5|<\/h6/g, '</div');
 
 			let editorState = this.state.editorState;
-			var htmlFragment = convertFromHTML(html);
-			if (htmlFragment) {
-				var htmlMap = BlockMapBuilder.createFromArray(htmlFragment);
+			const htmlFragment = convertFromHTML(html);
+      if (htmlFragment) {
+        const { contentBlocks, entityMap } = htmlFragment;
+				const htmlMap = BlockMapBuilder.createFromArray(contentBlocks);
 				this.onChange(insertFragment(editorState, htmlMap));
 				// prevent the default paste behavior.
 				return true;
