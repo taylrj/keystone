@@ -9,8 +9,8 @@ import ENTITY from './entities';
 import merge from 'lodash/merge';
 
 const _ = {
-  merge,
-}
+	merge,
+};
 
 const annotationIndicatorPrefix = '__ANNOTATION__=';
 
@@ -48,7 +48,7 @@ let defaultEntityTagMap = {
 	[ENTITY.LINK.type]: ['<a target="_blank" href="<%= data.url %>">', '</a>'],
 	[ENTITY.IMAGE.type]: ['<img alt="<%= data.description %>" src="<%= data.url %>">', '</img>'],
 	[ENTITY.IMAGELINK.type]: ['<img alt="<%= data.description %>" src="<%= data.url %>">', '</img>'],
-  [ENTITY.SLIDESHOW.type]: ['<!-- slideshow component start --> <ol class="slideshow-container"> <% if(!data) { data = []; } data.forEach(function(image) { %><li class="slideshow-slide"><img src="<%- image.url %>" /></li><% }); %>', '</ol><!-- slideshow component end -->'],
+	[ENTITY.SLIDESHOW.type]: ['<!-- slideshow component start --> <ol class="slideshow-container"> <% if(!data) { data = []; } data.forEach(function(image) { %><li class="slideshow-slide"><img src="<%- image.url %>" /></li><% }); %>', '</ol><!-- slideshow component end -->'],
 	[ENTITY.IMAGEDIFF.type]: ['<!-- imageDiff component start --> <ol class="image-diff-container"> <% if(!data) { data = []; } data.forEach(function(image, index) { if (index > 1) { return; } %><li class="image-diff-item"><img src="<%- image.url %>" /></li><% }); %>', '</ol><!-- imageDiff component end-->'],
 	[ENTITY.YOUTUBE.type]: ['<iframe width="560" height="315" src="https://www.youtube.com/embed/<%= data.youtubeId %>" frameborder="0" allowfullscreen>', '</iframe>'],
 };

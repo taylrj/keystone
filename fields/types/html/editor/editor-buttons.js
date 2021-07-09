@@ -15,8 +15,8 @@ import YoutubeBt from './youtube/youtube-bt';
 import map from 'lodash/map';
 
 const _ = {
-  map,
-}
+	map,
+};
 
 class StyleButton extends React.Component {
 	constructor () {

@@ -111,16 +111,16 @@ let SelectorMixin = (superclass) => class extends superclass {
 			.then((queryString) => {
 				return this.loadItems(queryString);
 			})
-		.then((items) => {
-			this.setState({
-				items: items,
-				currentPage: selectedPage,
+			.then((items) => {
+				this.setState({
+					items: items,
+					currentPage: selectedPage,
+				});
+			}, (reason) => {
+				this.setState({
+					error: reason,
+				});
 			});
-		}, (reason) => {
-			this.setState({
-				error: reason,
-			});
-		});
 	}
 
 	_updateSelection (selectedItems) {

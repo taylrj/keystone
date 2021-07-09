@@ -8,8 +8,8 @@ import React from 'react';
 import merge from 'lodash/merge';
 
 const _ = {
-  merge,
-}
+	merge,
+};
 
 const PAGINATION_LIMIT = 10;
 

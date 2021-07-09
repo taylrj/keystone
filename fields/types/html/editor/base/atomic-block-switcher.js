@@ -18,8 +18,8 @@ import { Entity } from 'draft-js';
 import { mobileStyle, tabletMinStyle, tabletMaxStyle } from '../constants/layout-style';
 
 const _ = {
-  get,
-}
+	get,
+};
 
 class AtomicBlockSwitcher extends React.Component {
 	constructor (props) {
@@ -27,7 +27,7 @@ class AtomicBlockSwitcher extends React.Component {
 		this.alignLeft = this._alignLeft.bind(this);
 		this.alignCenter = this._alignCenter.bind(this);
 		this.alignRight = this._alignRight.bind(this);
-        this.alignCenterSmall = this._alignCenterSmall.bind(this);
+		this.alignCenterSmall = this._alignCenterSmall.bind(this);
 	}
 
 	_alignLeft (e) {
@@ -45,10 +45,10 @@ class AtomicBlockSwitcher extends React.Component {
 		this.props.align('right');
 	}
 
-    _alignCenterSmall (e) {
-        e.stopPropagation()
-        this.props.align('center-small')
-    }
+	_alignCenterSmall (e) {
+		e.stopPropagation();
+		this.props.align('center-small');
+	}
 
 	render () {
 		const entityKey = this.props.block.getEntityAt(0);
@@ -179,7 +179,7 @@ class AtomicBlockSwitcher extends React.Component {
 					{...this.props}
 					device={device}
 				>
-				{device !== 'mobile' ? Buttons : null}
+					{device !== 'mobile' ? Buttons : null}
 				</BlockComponent>
 			</div>
 		);

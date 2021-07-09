@@ -6,8 +6,8 @@ import React from 'react';
 import get from 'lodash/get';
 
 const _ = {
-  get,
-}
+	get,
+};
 
 class AnnotationEditingBlock extends EntityEditingBlockMixin(React.Component) {
 	constructor (props) {

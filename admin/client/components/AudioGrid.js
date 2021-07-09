@@ -5,8 +5,8 @@ import React from 'react';
 import get from 'lodash/get';
 
 const _ = {
-  get,
-}
+	get,
+};
 
 class AudioItem extends React.Component {
 	constructor (props) {

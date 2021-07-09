@@ -44,7 +44,7 @@ var PopoutListItem = React.createClass({
 				onMouseOver={this.hover}
 				onMouseOut={this.unhover}
 				{...props}
-				>
+			>
 				{this.renderIcon()}
 				<span className="PopoutList__item__label">{this.props.label}</span>
 			</button>

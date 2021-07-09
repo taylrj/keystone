@@ -5,7 +5,6 @@ import { FormInput } from 'elemental';
 import cx from 'classnames';
 
 
-
 /**
  * TODO:
  * - Custom path support
@@ -16,13 +15,13 @@ const BOTTOM = 'bottom';
 const BOTTOMLEFT = 'bottom-left';
 
 const imageSrc = {
-    [CENTER]:'title-center',
-    [BOTTOM]:'title-bottom',
-    [BOTTOMLEFT]:'title-bottonLeft',
-    'title-upon-left': 'title-upon-left',
-    'title-above': 'title-above',
-    'header-upon': 'header-upon',
-    'header-above': 'header-above'
+	[CENTER]: 'title-center',
+	[BOTTOM]: 'title-bottom',
+	[BOTTOMLEFT]: 'title-bottonLeft',
+	'title-upon-left': 'title-upon-left',
+	'title-above': 'title-above',
+	'header-upon': 'header-upon',
+	'header-above': 'header-above',
 };
 
 module.exports = Field.create({
@@ -34,21 +33,21 @@ module.exports = Field.create({
 		return ops.map((obj, i) => {
 			const imgStyle = cx({
 				'image-content': true,
-				'current': obj.value === value
-			})
+				'current': obj.value === value,
+			});
 			return (
 				<label key={i} className="col-4 image-container">
   				<input type="radio" name={nameValue} value={obj.value} />
-                <img
-                  className={imgStyle}
-                  src={`https://storage.googleapis.com/twreporter-multimedia/images/${imageSrc[obj.value]}.png`}
-                  onClick={() => { this.valueChanged(obj.value); }}
-                  style={{
-                    objectFit: 'cover',
-                    width: '100%',
-                    height: '100%'
-                  }}
-                />
+					<img
+						className={imgStyle}
+						src={`https://storage.googleapis.com/twreporter-multimedia/images/${imageSrc[obj.value]}.png`}
+						onClick={() => { this.valueChanged(obj.value); }}
+						style={{
+							objectFit: 'cover',
+							width: '100%',
+							height: '100%',
+						}}
+					/>
 				</label>
 			);
 		});

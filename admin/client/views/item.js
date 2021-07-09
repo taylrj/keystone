@@ -65,7 +65,7 @@ var ItemView = React.createClass({
 						currentSectionKey={this.props.nav.currentSection.key}
 						sections={this.props.nav.sections}
 						signoutUrl={this.props.signoutUrl}
-						/>
+					/>
 					<PrimaryNavigation
 						currentSectionKey={this.props.nav.currentSection.key}
 						brand={this.props.brand}

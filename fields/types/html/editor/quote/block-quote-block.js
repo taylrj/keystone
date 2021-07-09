@@ -7,8 +7,8 @@ import React from 'react';
 import get from 'lodash/get';
 
 const _ = {
-  get,
-}
+	get,
+};
 
 export default class BlockQuoteBlock extends AtomicBlockRendererMixin(React.Component) {
 	constructor (props) {
@@ -45,7 +45,7 @@ export default class BlockQuoteBlock extends AtomicBlockRendererMixin(React.Comp
 					{...this.state.data}
 					device={this.props.device}
 				>
-				{this.props.children}
+					{this.props.children}
 				</AlignedQuoteBy>
 				{EditBlock}
 			</div>

@@ -12,14 +12,14 @@ var sizeOf = require('probe-image-size');
 
 // lodash
 var forEach = require('lodash/forEach');
-var indexOf = require('lodash/indexOf')
-var set = require('lodash/set')
+var indexOf = require('lodash/indexOf');
+var set = require('lodash/set');
 
 const _ = {
-  forEach,
-  indexOf,
-  set,
-}
+	forEach,
+	indexOf,
+	set,
+};
 
 /**
  *  FieldType Constructor
@@ -28,18 +28,18 @@ const _ = {
  */
 
 function gcsimage (list, path, options) {
-  this._underscoreMethods = ['format', 'uploadFile'];
-  this._fixedSize = 'full';
+	this._underscoreMethods = ['format', 'uploadFile'];
+	this._fixedSize = 'full';
 
-  // TODO: implement filtering, usage disabled for now
-  options.nofilter = true;
+	// TODO: implement filtering, usage disabled for now
+	options.nofilter = true;
 
-  gcsimage.super_.call(this, list, path, options);
+	gcsimage.super_.call(this, list, path, options);
 
-  // validate gcs config (has to happen after super_.call)
-  if (!keystone.get('gcs config')) {
-    throw new Error('Invalid Configuration\n\n' + 'gcsimage fields (' + list.key + '.' + path + ') require the "gcs config" option to be set.\n\n' + 'See http://keystonejs.com/docs/configuration/#services-gcsimage for more information.\n');
-  }
+	// validate gcs config (has to happen after super_.call)
+	if (!keystone.get('gcs config')) {
+		throw new Error('Invalid Configuration\n\n' + 'gcsimage fields (' + list.key + '.' + path + ') require the "gcs config" option to be set.\n\n' + 'See http://keystonejs.com/docs/configuration/#services-gcsimage for more information.\n');
+	}
 }
 
 /*!
@@ -53,9 +53,9 @@ util.inherits(gcsimage, super_);
  */
 
 Object.defineProperty(gcsimage.prototype, 'gcsConfig', {
-  get: function () {
-    return this.options.gcsConfig || keystone.get('gcs config');
-  },
+	get: function () {
+		return this.options.gcsConfig || keystone.get('gcs config');
+	},
 });
 
 /**
@@ -66,116 +66,116 @@ Object.defineProperty(gcsimage.prototype, 'gcsConfig', {
 
 gcsimage.prototype.addToSchema = function () {
 
-  var _this = this;
-  var schema = this.list.schema;
+	var _this = this;
+	var schema = this.list.schema;
 
-  var paths = this.paths = {
-    // fields
-    filename: this._path.append('.filename'),
-    filetype: this._path.append('.filetype'),
-    gcsBucket: this._path.append('.gcsBucket'),
-    gcsDir: this._path.append('.gcsDir'),
-    height: this._path.append('.height'),
-    iptc: this._path.append('.iptc'),
-    resizedTargets: this._path.append('.resizedTargets'),
-    size: this._path.append('.size'),
-    width: this._path.append('.width'),
+	var paths = this.paths = {
+		// fields
+		filename: this._path.append('.filename'),
+		filetype: this._path.append('.filetype'),
+		gcsBucket: this._path.append('.gcsBucket'),
+		gcsDir: this._path.append('.gcsDir'),
+		height: this._path.append('.height'),
+		iptc: this._path.append('.iptc'),
+		resizedTargets: this._path.append('.resizedTargets'),
+		size: this._path.append('.size'),
+		width: this._path.append('.width'),
 
-    // virtuals
-    action: this._path.append('_action'),
-    exists: this._path.append('.exists'),
-    upload: this._path.append('_upload'),
-  };
+		// virtuals
+		action: this._path.append('_action'),
+		exists: this._path.append('.exists'),
+		upload: this._path.append('_upload'),
+	};
 
-  var schemaPaths = this._path.addTo({}, {
-    filename: String,
-    filetype: String,
-    gcsBucket: String,
-    gcsDir: String,
-    height: Number,
-    iptc: Object,
-    resizedTargets: Object,
-    size: Number,
-    width: Number,
-  });
+	var schemaPaths = this._path.addTo({}, {
+		filename: String,
+		filetype: String,
+		gcsBucket: String,
+		gcsDir: String,
+		height: Number,
+		iptc: Object,
+		resizedTargets: Object,
+		size: Number,
+		width: Number,
+	});
 
-  schema.add(schemaPaths);
+	schema.add(schemaPaths);
 
-  var exists = function (item) {
-    return (item.get(paths.filename) ? true : false);
-  };
+	var exists = function (item) {
+		return (item.get(paths.filename) ? true : false);
+	};
 
-  // The .exists virtual indicates whether a file is stored
-  schema.virtual(paths.exists).get(function () {
-    return schemaMethods.exists.apply(this);
-  });
+	// The .exists virtual indicates whether a file is stored
+	schema.virtual(paths.exists).get(function () {
+		return schemaMethods.exists.apply(this);
+	});
 
-  var reset = function (item) {
-    item.set(_this.path, {
-      filename: '',
-      filetype: '',
-      gcsBucket: '',
-      gcsDir: '',
-      height: 0,
-      iptc: {},
-      resizedTargets: {},
-      size: 0,
-      width: 0,
-    });
-  };
+	var reset = function (item) {
+		item.set(_this.path, {
+			filename: '',
+			filetype: '',
+			gcsBucket: '',
+			gcsDir: '',
+			height: 0,
+			iptc: {},
+			resizedTargets: {},
+			size: 0,
+			width: 0,
+		});
+	};
 
-  var schemaMethods = {
-    exists: function () {
-      return exists(this);
-    },
-    /**
+	var schemaMethods = {
+		exists: function () {
+			return exists(this);
+		},
+		/**
      * Resets the value of the field
      *
      * @api public
      */
-    reset: function () {
-      reset(this);
-    },
-    /**
+		reset: function () {
+			reset(this);
+		},
+		/**
      * Deletes the file from gcs and resets the field
      *
      * @api public
      */
-    delete: function () {
-      var _this = this;
-      var promise = new Promise(function (resolve, reject) {
-        var gcsConfig = _this.gcsConfig;
-        var bucket = gcsHelper.initBucket(gcsConfig, _this.get(paths.bucket));
-        var filename = _this.get(paths.filename);
-        if (filename && typeof filename === 'string') {
-          var filenameWithoutExt = filename.split('.')[0];
-          bucket.deleteFiles({
-            prefix: _this.get(paths.path) + filenameWithoutExt,
-          }, function (err) {
-            if (err) {
-              return reject(err);
-            }
-            resolve();
-          });
-        } else {
-          resolve();
-        }
-      });
-      reset(this);
-      return promise;
-    },
-  };
+		delete: function () {
+			var _this = this;
+			var promise = new Promise(function (resolve, reject) {
+				var gcsConfig = _this.gcsConfig;
+				var bucket = gcsHelper.initBucket(gcsConfig, _this.get(paths.bucket));
+				var filename = _this.get(paths.filename);
+				if (filename && typeof filename === 'string') {
+					var filenameWithoutExt = filename.split('.')[0];
+					bucket.deleteFiles({
+						prefix: _this.get(paths.path) + filenameWithoutExt,
+					}, function (err) {
+						if (err) {
+							return reject(err);
+						}
+						resolve();
+					});
+				} else {
+					resolve();
+				}
+			});
+			reset(this);
+			return promise;
+		},
+	};
 
-  _.forEach(schemaMethods, function (fn, key) {
-    _this.underscoreMethod(key, fn);
-  });
+	_.forEach(schemaMethods, function (fn, key) {
+		_this.underscoreMethod(key, fn);
+	});
 
-  // expose a method on the field to call schema methods
-  this.apply = function (item, method) {
-    return schemaMethods[method].apply(item, Array.prototype.slice.call(arguments, 2));
-  };
+	// expose a method on the field to call schema methods
+	this.apply = function (item, method) {
+		return schemaMethods[method].apply(item, Array.prototype.slice.call(arguments, 2));
+	};
 
-  this.bindUnderscoreMethods();
+	this.bindUnderscoreMethods();
 };
 
 
@@ -186,10 +186,10 @@ gcsimage.prototype.addToSchema = function () {
  */
 
 gcsimage.prototype.format = function (item) {
-  if (this.hasFormatter()) {
-    return this.options.format(item, item[this.path]);
-  }
-  return item.get(this.paths.filename);
+	if (this.hasFormatter()) {
+		return this.options.format(item, item[this.path]);
+	}
+	return item.get(this.paths.filename);
 };
 
 
@@ -200,7 +200,7 @@ gcsimage.prototype.format = function (item) {
  */
 
 gcsimage.prototype.hasFormatter = function () {
-  return typeof this.options.format === 'function';
+	return typeof this.options.format === 'function';
 };
 
 
@@ -211,7 +211,7 @@ gcsimage.prototype.hasFormatter = function () {
  */
 
 gcsimage.prototype.isModified = function (item) {
-  return item.isModified(this.paths.filename);
+	return item.isModified(this.paths.filename);
 };
 
 
@@ -222,8 +222,8 @@ gcsimage.prototype.isModified = function (item) {
  */
 
 gcsimage.prototype.inputIsValid = function (data) { // eslint-disable-line no-unused-vars
-  // TODO - how should file field input be validated?
-  return true;
+	// TODO - how should file field input be validated?
+	return true;
 };
 
 
@@ -234,8 +234,8 @@ gcsimage.prototype.inputIsValid = function (data) { // eslint-disable-line no-un
  */
 
 gcsimage.prototype.updateItem = function (item, data, callback) { // eslint-disable-line no-unused-vars
-  // TODO - direct updating of data (not via upload)
-  process.nextTick(callback);
+	// TODO - direct updating of data (not via upload)
+	process.nextTick(callback);
 };
 
 /**
@@ -245,100 +245,100 @@ gcsimage.prototype.updateItem = function (item, data, callback) { // eslint-disa
  */
 
 gcsimage.prototype.uploadFile = function (item, file, update, callback) {
-  var _this = this;
-  var ONE_YEAR = 60 * 60 * 24 * 365;
-  var publicRead = _this.options.publicRead ? _this.options.publicRead : false;
-  var prefix = _this.options.datePrefix ? moment().format(_this.options.datePrefix) + '-' : '';
-  var filename = prefix + file.name;
-  var split = filename.split('.');
-  var filenameWithoutExt = split[0];
-  var ext = split[1] || '';
-  var originalname = file.originalname;
-  var filetype = file.mimetype || file.type;
-  let gcsDir = this.options.destination ? this.options.destination : '';
+	var _this = this;
+	var ONE_YEAR = 60 * 60 * 24 * 365;
+	var publicRead = _this.options.publicRead ? _this.options.publicRead : false;
+	var prefix = _this.options.datePrefix ? moment().format(_this.options.datePrefix) + '-' : '';
+	var filename = prefix + file.name;
+	var split = filename.split('.');
+	var filenameWithoutExt = split[0];
+	var ext = split[1] || '';
+	var originalname = file.originalname;
+	var filetype = file.mimetype || file.type;
+	let gcsDir = this.options.destination ? this.options.destination : '';
 
-  if (typeof gcsDir === 'string' && gcsDir !== '') {
-    if (gcsDir === '/') {
-      gcsDir = '';
-    } else if (gcsDir.slice(-1) !== '/') {
-      gcsDir += '/';
-    }
-  }
+	if (typeof gcsDir === 'string' && gcsDir !== '') {
+		if (gcsDir === '/') {
+			gcsDir = '';
+		} else if (gcsDir.slice(-1) !== '/') {
+			gcsDir += '/';
+		}
+	}
 
-  if (typeof update === 'function') {
-    callback = update;
-    update = false;
-  }
+	if (typeof update === 'function') {
+		callback = update;
+		update = false;
+	}
 
-  if ((_this.options.allowedTypes && !_.indexOf(_this.options.allowedTypes, filetype)
+	if ((_this.options.allowedTypes && !_.indexOf(_this.options.allowedTypes, filetype)
     || filetype.match('image.*') === null)) {
-    return callback(new Error('Unsupported File Type: ' + filetype));
-  }
+		return callback(new Error('Unsupported File Type: ' + filetype));
+	}
 
-  var doUpload = function () {
+	var doUpload = function () {
 
-    if (typeof _this.options.filename === 'function') {
-      filename = _this.options.filename(item, filename, originalname);
-    }
+		if (typeof _this.options.filename === 'function') {
+			filename = _this.options.filename(item, filename, originalname);
+		}
 
-    var bucket = gcsHelper.initBucket(_this.gcsConfig, _this.options.bucket);
-    return gcsHelper.uploadFileToBucket(bucket, fs.createReadStream(file.path), {
-      destination: gcsDir + filename,
-      filetype: filetype,
-      publicRead: publicRead,
-      cacheControl: 'public, max-age=' + ONE_YEAR,
-    }).then(function () {
-      const dimensions = sizeOf.sync(fs.readFileSync(file.path));
+		var bucket = gcsHelper.initBucket(_this.gcsConfig, _this.options.bucket);
+		return gcsHelper.uploadFileToBucket(bucket, fs.createReadStream(file.path), {
+			destination: gcsDir + filename,
+			filetype: filetype,
+			publicRead: publicRead,
+			cacheControl: 'public, max-age=' + ONE_YEAR,
+		}).then(function () {
+			const dimensions = sizeOf.sync(fs.readFileSync(file.path));
 
-      var imageData = {
-        filepath: file.path,
-        filename: filename,
-        filetype: filetype,
-        gcsBucket: _this.options.bucket,
-        gcsDir: gcsDir,
-        height: dimensions.height,
-        size: file.size,
-        width: dimensions.width,
-        resizedTargets: {},
-        iptc: {},
-      };
+			var imageData = {
+				filepath: file.path,
+				filename: filename,
+				filetype: filetype,
+				gcsBucket: _this.options.bucket,
+				gcsDir: gcsDir,
+				height: dimensions.height,
+				size: file.size,
+				width: dimensions.width,
+				resizedTargets: {},
+				iptc: {},
+			};
 
-      if (_this.options.hooks && typeof _this.options.hooks.postUpload === 'function') {
-        return _this.options.hooks.postUpload(imageData)
-          .then((postUploadData) => {
-            if (update) {
-              item.set(_this.path, postUploadData);
-            }
-            return callback(null, postUploadData);
-          })
-      } else {
-        if (update) {
-          item.set(_this.path, imageData);
-        }
-        callback(null, imageData);
-      }
-    }).catch(function (err) {
-      console.error(err);
-      bucket.deleteFiles({
-        prefix: gcsDir + filenameWithoutExt,
-      }, function (deleteErr) {
-        if (deleteErr) {
-          return callback(deleteErr);
-        }
-        callback(err);
-      });
-    }).finally(function () {
-      // delete local file
-      console.log('DELETE LOCAL FILE:', file.path);
-      try {
-        fs.unlinkSync(file.path);
-      } catch (err) {
-        console.error('DELETE LOCAL FILE ERROR:', err);
-      };
-    });
-  };
+			if (_this.options.hooks && typeof _this.options.hooks.postUpload === 'function') {
+				return _this.options.hooks.postUpload(imageData)
+					.then((postUploadData) => {
+						if (update) {
+							item.set(_this.path, postUploadData);
+						}
+						return callback(null, postUploadData);
+					});
+			} else {
+				if (update) {
+					item.set(_this.path, imageData);
+				}
+				callback(null, imageData);
+			}
+		}).catch(function (err) {
+			console.error(err);
+			bucket.deleteFiles({
+				prefix: gcsDir + filenameWithoutExt,
+			}, function (deleteErr) {
+				if (deleteErr) {
+					return callback(deleteErr);
+				}
+				callback(err);
+			});
+		}).finally(function () {
+			// delete local file
+			console.log('DELETE LOCAL FILE:', file.path);
+			try {
+				fs.unlinkSync(file.path);
+			} catch (err) {
+				console.error('DELETE LOCAL FILE ERROR:', err);
+			};
+		});
+	};
 
-  doUpload();
+	doUpload();
 };
 
 
@@ -354,46 +354,46 @@ gcsimage.prototype.uploadFile = function (item, file, update, callback) {
 
 gcsimage.prototype.getRequestHandler = function (item, req, paths, callback) {
 
-  var _this = this;
+	var _this = this;
 
-  if (utils.isFunction(paths)) {
-    callback = paths;
-    paths = _this.paths;
-  } else if (!paths) {
-    paths = _this.paths;
-  }
+	if (utils.isFunction(paths)) {
+		callback = paths;
+		paths = _this.paths;
+	} else if (!paths) {
+		paths = _this.paths;
+	}
 
-  callback = callback || function () {};
+	callback = callback || function () {};
 
-  return function () {
+	return function () {
 
-    if (req.body) {
-      var action = req.body[paths.action];
+		if (req.body) {
+			var action = req.body[paths.action];
 
-      if (/^(delete|reset)$/.test(action)) {
-        _this.apply(item, action);
-      }
-    }
+			if (/^(delete|reset)$/.test(action)) {
+				_this.apply(item, action);
+			}
+		}
 
-    if (req.files && req.files[paths.upload] && req.files[paths.upload].size) {
-      var imageDelete;
-      if (_this.options.autoCleanup && item.get(_this.paths.exists)) {
-        // capture image delete promise
-        imageDelete = _this.apply(item, 'delete');
-      }
-      if (typeof imageDelete === 'undefined') {
-        _this.uploadFile(item, req.files[paths.upload], true, callback);
-      } else {
-        imageDelete.then(function (result) {
-          _this.uploadFile(item, req.files[paths.upload], true, callback);
-        }, function (err) {
-          callback(err);
-        });
-      }
-    } else {
-      return callback();
-    }
-  };
+		if (req.files && req.files[paths.upload] && req.files[paths.upload].size) {
+			var imageDelete;
+			if (_this.options.autoCleanup && item.get(_this.paths.exists)) {
+				// capture image delete promise
+				imageDelete = _this.apply(item, 'delete');
+			}
+			if (typeof imageDelete === 'undefined') {
+				_this.uploadFile(item, req.files[paths.upload], true, callback);
+			} else {
+				imageDelete.then(function (result) {
+					_this.uploadFile(item, req.files[paths.upload], true, callback);
+				}, function (err) {
+					callback(err);
+				});
+			}
+		} else {
+			return callback();
+		}
+	};
 };
 
 
@@ -404,47 +404,47 @@ gcsimage.prototype.getRequestHandler = function (item, req, paths, callback) {
  */
 
 gcsimage.prototype.handleRequest = function (item, req, paths, callback) {
-  this.getRequestHandler(item, req, paths, callback)();
+	this.getRequestHandler(item, req, paths, callback)();
 };
 
 /**
  * Add filters to a query
  */
 gcsimage.prototype.addFilterToQuery = function (filter, query) {
-  query = query || {};
-  let value = utils.escapeRegExp(filter.value);
-  value = new RegExp(value, 'i');
+	query = query || {};
+	let value = utils.escapeRegExp(filter.value);
+	value = new RegExp(value, 'i');
 
-  switch(filter.mode) {
-    case 'keywords_contains': {
-      query['$or'] = [{
-          keywords: value,
-        },{
-          [`${this.path}.iptc.keywords`]: value,
-        }
-      ]
-      break;
-    }
-    case 'byline_contains': {
-      query[`${this.path}.iptc.byline`] = value;
-      break;
-    }
-    case 'created_date_contains': {
-      query[`${this.path}.iptc.created_date`] = value;
-      break;
-    }
-    case 'caption_contains':
-    default: {
-      query['$or'] = [{
-          description: value,
-        },{
-          [`${this.path}.iptc.caption`]: value,
-        }
-      ]
-      break;
-    }
-  }
-  return query;
+	switch (filter.mode) {
+		case 'keywords_contains': {
+			query.$or = [{
+				keywords: value,
+			}, {
+				[`${this.path}.iptc.keywords`]: value,
+			},
+			];
+			break;
+		}
+		case 'byline_contains': {
+			query[`${this.path}.iptc.byline`] = value;
+			break;
+		}
+		case 'created_date_contains': {
+			query[`${this.path}.iptc.created_date`] = value;
+			break;
+		}
+		case 'caption_contains':
+		default: {
+			query.$or = [{
+				description: value,
+			}, {
+				[`${this.path}.iptc.caption`]: value,
+			},
+			];
+			break;
+		}
+	}
+	return query;
 };
 
 

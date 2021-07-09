@@ -5,7 +5,6 @@ import { FormInput } from 'elemental';
 import cx from 'classnames';
 
 
-
 /**
  * TODO:
  * - Custom path support
@@ -16,8 +15,8 @@ const INCOLIMN = 'in-column';
 
 
 const imageSrc = {
-	[INROW]:'articles-inRow',
-	[INCOLIMN]:'articles-inColumn'
+	[INROW]: 'articles-inRow',
+	[INCOLIMN]: 'articles-inColumn',
 };
 
 module.exports = Field.create({
@@ -29,8 +28,8 @@ module.exports = Field.create({
 		return ops.map((obj, i) => {
 			const imgStyle = cx({
 				'image-content': true,
-				'current': obj.value === value
-			})
+				'current': obj.value === value,
+			});
 			return (
 				<label key={i} className="col-4 image-container">
   				<input type="radio" name={nameValue} value={obj.value} />

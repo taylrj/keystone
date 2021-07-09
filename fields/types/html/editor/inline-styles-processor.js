@@ -4,18 +4,18 @@ import ENTITY from './entities';
 import forEach from 'lodash/forEach';
 import forEachRight from 'lodash/forEachRight';
 import get from 'lodash/get';
-import pick from 'lodash/pick'
+import pick from 'lodash/pick';
 import sortBy from 'lodash/sortBy';
-import template from 'lodash/template'
+import template from 'lodash/template';
 
 const _ = {
-  forEach,
-  forEachRight,
-  get,
-  pick,
-  sortBy,
-  template,
-}
+	forEach,
+	forEachRight,
+	get,
+	pick,
+	sortBy,
+	template,
+};
 
 function _fullfilIntersection (block) {
 	// SORT BEFORE PROCESSING

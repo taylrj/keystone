@@ -3,9 +3,9 @@ import get from 'lodash/get';
 import merge from 'lodash/merge';
 
 const _ = {
-  get,
-  merge,
-}
+	get,
+	merge,
+};
 
 let AtomicBlockRendererMixin = (superclass) => class extends superclass {
 	constructor (props) {

@@ -5,8 +5,8 @@ import React from 'react';
 import merge from 'lodash/merge';
 
 const _ = {
-  merge,
-}
+	merge,
+};
 
 class ImageSelection extends SelectionMixin(React.Component) {
 	constructor (props) {

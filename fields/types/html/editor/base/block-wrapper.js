@@ -4,8 +4,8 @@ import React, { Component } from 'react';
 import get from 'lodash/get';
 
 const _ = {
-  get,
-}
+	get,
+};
 
 const getDisplayName = (WrappedComponent) => (
 	WrappedComponent.displayName || WrappedComponent.name || 'Component'

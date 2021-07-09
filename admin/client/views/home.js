@@ -144,13 +144,13 @@ var HomeView = React.createClass({
 						currentSectionKey="dashboard"
 						sections={this.props.nav.sections}
 						signoutUrl={this.props.signoutUrl}
-						/>
+					/>
 					<PrimaryNavigation
 						brand={this.props.brand}
 						currentSectionKey="dashboard"
 						sections={this.props.nav.sections}
 						signoutUrl={this.props.signoutUrl}
-						/>
+					/>
 				</header>
 				<div className="keystone-body">
 					<Container>

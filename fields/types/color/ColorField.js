@@ -95,7 +95,7 @@ module.exports = Field.create({
 						onClose={this.handleClose}
 						position={window.innerWidth > 480 ? 'right' : 'below'}
 						type={this.props.pickerType}
-						/>
+					/>
 				</div>
 			</div>
 		);

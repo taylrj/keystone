@@ -8,8 +8,8 @@ import React from 'react';
 import get from 'lodash/get';
 
 const _ = {
-  get,
-}
+	get,
+};
 
 export default class ImageLinkBlock extends AtomicBlockRendererMixin(React.Component) {
 	constructor (props) {

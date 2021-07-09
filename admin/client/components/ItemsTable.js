@@ -3,7 +3,7 @@ import React from 'react';
 import TableRow from './ItemsTableRow';
 import DrapDrop from './ItemsTableDragDrop';
 
-const TABLE_CONTROL_COLUMN_WIDTH = 26;  // icon + padding
+const TABLE_CONTROL_COLUMN_WIDTH = 26; // icon + padding
 
 const ItemsTable = React.createClass({
 	propTypes: {

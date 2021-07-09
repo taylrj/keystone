@@ -9,8 +9,8 @@ import React from 'react';
 import get from 'lodash/get';
 
 const _ = {
-  get,
-}
+	get,
+};
 
 export default class SlideshowBlock extends AtomicBlockRendererMixin(React.Component) {
 	constructor (props) {

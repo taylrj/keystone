@@ -5,8 +5,8 @@ import React, { Component } from 'react';
 import merge from 'lodash/merge';
 
 const _ = {
-  merge,
-}
+	merge,
+};
 
 class AudioSelection extends SelectionMixin(Component) {
 	constructor (props) {

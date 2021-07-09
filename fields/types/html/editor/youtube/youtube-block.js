@@ -8,8 +8,8 @@ import YoutubeEditingBlock from './youtube-editing-block';
 import get from 'lodash/get';
 
 const _ = {
-  get,
-}
+	get,
+};
 
 export default class YoutubeBlock extends AtomicBlockRendererMixin(React.Component) {
 	constructor (props) {

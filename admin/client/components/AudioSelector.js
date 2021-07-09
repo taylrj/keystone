@@ -8,17 +8,17 @@ import SelectorMixin from './mixins/SelectorMixin';
 import React from 'react';
 
 // lodash
-import forEach from 'lodash/forEach'
+import forEach from 'lodash/forEach';
 import get from 'lodash/get';
 import merge from 'lodash/merge';
 import set from 'lodash/set';
 
 const _ = {
-  forEach,
-  get,
-  merge,
-  set,
-}
+	forEach,
+	get,
+	merge,
+	set,
+};
 
 const PAGINATION_LIMIT = 10;
 
